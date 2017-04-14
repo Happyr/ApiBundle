@@ -2,7 +2,7 @@
 
 namespace Happyr\ApiBundle\Security\Firewall;
 
-use Happyr\ApiBundle\Controller\BaseController;
+use Happyr\ApiBundle\Controller\BaseApiController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -53,7 +53,7 @@ class WsseListener implements ListenerInterface
             // If we do not have any WSSE headers...
             $response = new JsonResponse([
                 'error' => [
-                    'code' => BaseController::CODE_FORBIDDEN,
+                    'code' => BaseApiController::CODE_FORBIDDEN,
                     'http_code' => Response::HTTP_FORBIDDEN,
                     'message' => 'Forbidden',
                 ],
@@ -76,7 +76,7 @@ class WsseListener implements ListenerInterface
         } catch (AuthenticationException $e) {
             $response = new JsonResponse([
                 'error' => [
-                    'code' => BaseController::CODE_UNAUTHORIZED,
+                    'code' => BaseApiController::CODE_UNAUTHORIZED,
                     'http_code' => Response::HTTP_UNAUTHORIZED,
                     'message' => 'Unauthorized',
                 ],

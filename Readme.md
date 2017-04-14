@@ -2,7 +2,7 @@
 
 [![Latest Version](https://img.shields.io/github/release/Happyr/ApiBundle.svg?style=flat-square)](https://github.com/Happyr/ApiBundle/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
-[![Build Status](https://img.shields.io/travis/Happyr/ApiBundle.svg?style=flat-square)](https://travis-ci.org/Happyr/ApiBundle)
+[![Build Status](https://img.shields.io/travis/Happyr/ApiBundle/master.svg?style=flat-square)](https://travis-ci.org/Happyr/ApiBundle)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Happyr/ApiBundle.svg?style=flat-square)](https://scrutinizer-ci.com/g/Happyr/ApiBundle)
 [![Quality Score](https://img.shields.io/scrutinizer/g/Happyr/ApiBundle.svg?style=flat-square)](https://scrutinizer-ci.com/g/Happyr/ApiBundle)
 [![Total Downloads](https://img.shields.io/packagist/dt/happyr/api-bundle.svg?style=flat-square)](https://packagist.org/packages/happyr/api-bundle)

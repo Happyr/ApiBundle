@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
-abstract class BaseController extends Controller
+abstract class BaseApiController extends Controller
 {
     private $statusCode = 200;
 
