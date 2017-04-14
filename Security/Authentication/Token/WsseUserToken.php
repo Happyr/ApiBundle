@@ -31,7 +31,7 @@ class WsseUserToken extends AbstractToken
      *
      * @param array $roles
      */
-    public function __construct(array $roles = array())
+    public function __construct(array $roles = [])
     {
         parent::__construct($roles);
 

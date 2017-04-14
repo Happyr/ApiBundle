@@ -14,7 +14,7 @@ use Happyr\ApiBundle\Security\Authentication\Token\WsseUserToken;
 /**
  * The authentication provider will do the verification of the WsseUserToken. Namely, the provider will verify the
  * Created header value is valid within the specified lifetime, the Nonce header value is unique within the
- * specified lifetime, and the PasswordDigest header value matches with the user's password
+ * specified lifetime, and the PasswordDigest header value matches with the user's password.
  *
  * @author Toby Ryuk
  */
