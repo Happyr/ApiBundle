@@ -53,7 +53,7 @@ abstract class BaseApiController extends Controller
     protected function respondWithItem($item, $callback)
     {
         $resource = new Item($item, $callback);
-        $rootScope = $this->get('app.fractal')->createData($resource);
+        $rootScope = $this->get('happyr_api.fractal')->createData($resource);
 
         return $this->respondWithArray($rootScope->toArray());
     }
@@ -67,14 +67,14 @@ abstract class BaseApiController extends Controller
     protected function respondWithCollection($collection, $callback)
     {
         $resource = new Collection($collection, $callback);
-        $rootScope = $this->get('app.fractal')->createData($resource);
+        $rootScope = $this->get('happyr_api.fractal')->createData($resource);
 
         return $this->respondWithArray($rootScope->toArray());
     }
 
     /**
-     * @param string $message
-     * @param int    $errorCode
+     * @param array $array
+     * @param array $headers
      *
      * @return JsonResponse
      */
