@@ -12,13 +12,11 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Happyr\ApiBundle\Security\Authentication\Token\WsseUserToken;
 
 /**
- * Class WsseProvider.
- *
- * @author Toby Ryuk
- *
  * The authentication provider will do the verification of the WsseUserToken. Namely, the provider will verify the
  * Created header value is valid within the specified lifetime, the Nonce header value is unique within the
  * specified lifetime, and the PasswordDigest header value matches with the user's password
+ *
+ * @author Toby Ryuk
  */
 class WsseProvider implements AuthenticationProviderInterface
 {
@@ -57,7 +55,7 @@ class WsseProvider implements AuthenticationProviderInterface
     }
 
     /**
-     * @param TokenInterface $token
+     * @param WsseUserToken $token
      *
      * @return WsseUserToken
      */
@@ -69,7 +67,7 @@ class WsseProvider implements AuthenticationProviderInterface
             throw new AuthenticationException('User not found.');
         }
 
-        if ($user && $this->validateDigest($token->digest, $token->nonce, $token->created, $user->getPassword())) {
+        if ($user && $this->validateDigest($token->getDigest(), $token->getNonce(), $token->getCreated(), $user->getPassword())) {
             $authenticatedToken = new WsseUserToken($user->getRoles());
             $authenticatedToken->setUser($user);
 

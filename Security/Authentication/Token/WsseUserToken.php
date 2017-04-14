@@ -5,11 +5,9 @@ namespace Happyr\ApiBundle\Security\Authentication\Token;
 use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
 
 /**
- * Class WsseProvider.
+ * Sets up a custom token for Wsse.
  *
  * @author Toby Ryuk
- *
- * Sets up a custom token for Wsse
  */
 class WsseUserToken extends AbstractToken
 {
@@ -51,7 +49,7 @@ class WsseUserToken extends AbstractToken
     /**
      * @return string
      */
-    public function getCreated(): string
+    public function getCreated()
     {
         return $this->created;
     }
@@ -71,7 +69,7 @@ class WsseUserToken extends AbstractToken
     /**
      * @return string
      */
-    public function getDigest(): string
+    public function getDigest()
     {
         return $this->digest;
     }
@@ -91,7 +89,7 @@ class WsseUserToken extends AbstractToken
     /**
      * @return string
      */
-    public function getNonce(): string
+    public function getNonce()
     {
         return $this->nonce;
     }

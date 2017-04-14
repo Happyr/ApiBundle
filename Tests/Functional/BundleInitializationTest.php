@@ -24,19 +24,24 @@ use Cache\Adapter\Void\VoidCachePool;
 use Cache\AdapterBundle\CacheAdapterBundle;
 use Cache\Namespaced\NamespacedCachePool;
 use Cache\Prefixed\PrefixedCachePool;
+use Happyr\ApiBundle\HappyrApiBundle;
+use League\Fractal\Manager;
 use Nyholm\BundleTest\BaseBundleTestCase;
+use Symfony\Bundle\SecurityBundle\SecurityBundle;
 
 class BundleInitializationTest extends BaseBundleTestCase
 {
     protected function getBundleClass()
     {
-        return CacheAdapterBundle::class;
+        return HappyrApiBundle::class;
     }
 
     protected function setUp()
     {
         parent::setUp();
         $kernel = $this->createKernel();
+        $kernel->addBundle(SecurityBundle::class);
+
         $kernel->addConfigFile(__DIR__.'/config.yml');
     }
 
@@ -44,52 +49,6 @@ class BundleInitializationTest extends BaseBundleTestCase
     {
         $this->bootKernel();
         $container = $this->getContainer();
-        $this->assertInstanceOf(ArrayCachePool::class, $container->get('alias.my_adapter'));
-        $this->assertInstanceOf(ApcCachePool::class, $container->get('cache.provider.apc'));
-        $this->assertInstanceOf(ApcuCachePool::class, $container->get('cache.provider.apcu'));
-        $this->assertInstanceOf(ArrayCachePool::class, $container->get('cache.provider.array'));
-        $this->assertInstanceOf(CachePoolChain::class, $container->get('cache.provider.chain'));
-        $this->assertInstanceOf(PredisCachePool::class, $container->get('cache.provider.predis'));
-        $this->assertInstanceOf(VoidCachePool::class, $container->get('cache.provider.void'));
-
-        $this->assertInstanceOf(DoctrineCachePool::class, $container->get('cache.provider.doctrine_filesystem'));
-        $this->assertInstanceOf(DoctrineCachePool::class, $container->get('cache.provider.doctrine_predis'));
-
-        $this->assertInstanceOf(NamespacedCachePool::class, $container->get('cache.provider.namespaced'));
-        $this->assertInstanceOf(PrefixedCachePool::class, $container->get('cache.provider.prefixed'));
-    }
-
-    public function testMemcachedWithWithDefaultConfiguration()
-    {
-        if (!class_exists('Memcached')) {
-            $this->markTestSkipped('Skipping since Memcached is not installed.');
-        }
-        $this->bootKernel();
-        $container = $this->getContainer();
-        $this->assertInstanceOf(MemcachedCachePool::class, $container->get('cache.provider.memcached'));
-        $this->assertInstanceOf(DoctrineCachePool::class, $container->get('cache.provider.doctrine_memcached'));
-    }
-
-    public function testMemcacheWithWithDefaultConfiguration()
-    {
-        if (!class_exists('Memcache')) {
-            $this->markTestSkipped('Skipping since Memcache is not installed.');
-        }
-        $this->bootKernel();
-        $container = $this->getContainer();
-        $this->assertInstanceOf(MemcacheCachePool::class, $container->get('cache.provider.memcache'));
-        $this->assertInstanceOf(DoctrineCachePool::class, $container->get('cache.provider.doctrine_memcache'));
-    }
-
-    public function testRedisWithWithDefaultConfiguration()
-    {
-        if (!class_exists('Redis')) {
-            $this->markTestSkipped('Skipping since Memcache is not installed.');
-        }
-
-        $this->bootKernel();
-        $container = $this->getContainer();
-        $this->assertInstanceOf(RedisCachePool::class, $container->get('cache.provider.redis'));
-        $this->assertInstanceOf(DoctrineCachePool::class, $container->get('cache.provider.doctrine_redis'));
+        $this->assertInstanceOf(Manager::class, $container->get('happyr_api.fractal'));
     }
 }

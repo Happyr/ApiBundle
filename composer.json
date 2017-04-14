@@ -2,7 +2,7 @@
     "name": "happyr/api-bundle",
     "type": "symfony-bundle",
     "description": "Api stuff for most Happyr projects",
-    "license": "proprietary",
+    "license": "MIT",
     "authors": [
         {
             "name": "Tobias Nyholm",
@@ -13,14 +13,21 @@
         "php": "^5.6 || ^7.0",
         "symfony/security-bundle": "^2.7 || ^3.0",
         "symfony/http-foundation": "^2.7 || ^3.0",
+        "symfony/framework-bundle": "^2.7 || ^3.0",
         "jms/serializer-bundle": "^1.0",
         "psr/cache": "^1.0",
         "league/fractal": "^0.16.0"
     },
+    "require-dev": {
+        "phpunit/phpunit": "^5.4",
+        "matthiasnoback/symfony-dependency-injection-test": "^1.0",
+        "nyholm/symfony-bundle-test": "^1.0"
+    },
     "autoload": {
         "psr-4": { "Happyr\\ApiBundle\\": "" }
     },
-    "require-dev": {
-        "nyholm/symfony-bundle-test": "^1.0"
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-ci": "vendor/bin/phpunit --coverage-text --coverage-clover=build/coverage.xml"
     }
 }
