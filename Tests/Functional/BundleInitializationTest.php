@@ -11,19 +11,6 @@
 
 namespace Happyr\ApiBundle\Tests\Functional;
 
-use Cache\Adapter\Apc\ApcCachePool;
-use Cache\Adapter\Apcu\ApcuCachePool;
-use Cache\Adapter\Chain\CachePoolChain;
-use Cache\Adapter\Doctrine\DoctrineCachePool;
-use Cache\Adapter\Memcache\MemcacheCachePool;
-use Cache\Adapter\Memcached\MemcachedCachePool;
-use Cache\Adapter\PHPArray\ArrayCachePool;
-use Cache\Adapter\Predis\PredisCachePool;
-use Cache\Adapter\Redis\RedisCachePool;
-use Cache\Adapter\Void\VoidCachePool;
-use Cache\AdapterBundle\CacheAdapterBundle;
-use Cache\Namespaced\NamespacedCachePool;
-use Cache\Prefixed\PrefixedCachePool;
 use Happyr\ApiBundle\HappyrApiBundle;
 use League\Fractal\Manager;
 use Nyholm\BundleTest\BaseBundleTestCase;
