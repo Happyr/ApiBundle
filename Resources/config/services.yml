@@ -1,0 +1,15 @@
+services:
+  wsse.security.authentication.provider:
+      class: Happyr\ApiBundle\Security\Authentication\Provider\WsseProvider
+      arguments:
+          - ~
+          - ~
+          - ~
+      public: false
+      calls:
+          - ['setLogger', ['@?logger']]
+
+  wsse.security.authentication.listener:
+      class: Happyr\ApiBundle\Security\Firewall\WsseListener
+      arguments: ["@security.token_storage", "@security.authentication.manager"]
+      public: false
