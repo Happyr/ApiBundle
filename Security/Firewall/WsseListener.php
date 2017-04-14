@@ -15,7 +15,7 @@ use Happyr\ApiBundle\Security\Authentication\Token\WsseUserToken;
 /**
  * Listens for incoming events and checks if they have x-wsse in the header. If not ignore, otherwise, sets up a
  * token and sends it of to validation. If validation passes, stores the token in the cache. If it fails, throw
- * an exception
+ * an exception.
  *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
