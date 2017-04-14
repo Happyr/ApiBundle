@@ -14,15 +14,6 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 class DummyProvider implements AuthenticationProviderInterface
 {
     /**
-     * Dummy constructor.
-     *
-     * @param mixed $value
-     */
-    public function __construct($value)
-    {
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function authenticate(TokenInterface $token)

@@ -14,12 +14,20 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 class DebugProvider implements AuthenticationProviderInterface
 {
     /**
-     * Dummy constructor.
-     *
-     * @param mixed $value
+     * @var array
      */
-    public function __construct($value)
+    private $debugRoles;
+
+    /**
+     * @param array $debugRoles
+     *
+     * @return DebugProvider
+     */
+    public function setDebugRoles($debugRoles)
     {
+        $this->debugRoles = $debugRoles;
+
+        return $this;
     }
 
     /**
@@ -27,7 +35,7 @@ class DebugProvider implements AuthenticationProviderInterface
      */
     public function authenticate(TokenInterface $token)
     {
-        $authenticatedToken = new WsseUserToken(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_FETCH', 'ROLE_STORE']);
+        $authenticatedToken = new WsseUserToken($this->debugRoles);
 
         return $authenticatedToken;
     }

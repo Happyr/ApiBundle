@@ -30,7 +30,7 @@ class HappyrApiExtension extends Extension
         $loader->load('services.yml');
 
         // add the error map to the error handler
-        $wsseProviderId = 'wsse.security.authentication.provider';
+        $wsseProviderId = 'happyr_api.wsse.security.authentication.provider';
         if (!$config['wsse']['enabled']) {
             $container->removeDefinition($wsseProviderId);
             $container->register($wsseProviderId, DummyProvider::class)
@@ -38,8 +38,9 @@ class HappyrApiExtension extends Extension
         } elseif ($config['wsse']['debug'] && $container->getParameter('kernel.debug')) {
             $container->removeDefinition($wsseProviderId);
             $container->register($wsseProviderId, DebugProvider::class)
-                ->addArgument(null);
-            $container->getDefinition('wsse.security.authentication.listener')
+                ->addArgument(null)
+                ->addMethodCall('setDebugRoles', [empty($config['wsse']['debug_roles']) ? ['ROLE_USER', 'ROLE_API_USER'] : $config['wsse']['debug_roles']]);
+            $container->getDefinition('happyr_api.wsse.security.authentication.listener')
                 ->setClass(DebugListener::class);
         } else {
             $definition = $container->getDefinition($wsseProviderId);

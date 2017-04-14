@@ -1,12 +1,11 @@
 <?php
 
-namespace Happyr\ApiBundle\Controller\Api;
+namespace Happyr\ApiBundle\Controller;
 
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>

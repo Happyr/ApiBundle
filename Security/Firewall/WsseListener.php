@@ -2,6 +2,8 @@
 
 namespace Happyr\ApiBundle\Security\Firewall;
 
+use Happyr\ApiBundle\Controller\BaseController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
@@ -11,13 +13,11 @@ use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 use Happyr\ApiBundle\Security\Authentication\Token\WsseUserToken;
 
 /**
- * Class WsseListener.
- *
- * @author Toby Ryuk
- *
  * Listens for incoming events and checks if they have x-wsse in the header. If not ignore, otherwise, sets up a
  * token and sends it of to validation. If validation passes, stores the token in the cache. If it fails, throw
  * an exception
+ *
+ * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
 class WsseListener implements ListenerInterface
 {
@@ -32,8 +32,6 @@ class WsseListener implements ListenerInterface
     protected $authenticationManager;
 
     /**
-     * WsseListener constructor.
-     *
      * @param TokenStorageInterface          $tokenStorage
      * @param AuthenticationManagerInterface $authenticationManager
      */
@@ -53,33 +51,38 @@ class WsseListener implements ListenerInterface
         $wsseRegex = '|UsernameToken Username="([^"]+)", PasswordDigest="([^"]+)", Nonce="([a-zA-Z0-9+/]+={0,2})", Created="([^"]+)"|';
         if (!$request->headers->has('x-wsse') || 1 !== preg_match($wsseRegex, $request->headers->get('x-wsse'), $matches)) {
             // If we do not have any WSSE headers...
-            $this->createForbiddenResponse($event);
+            $response = new JsonResponse([
+                'error' => [
+                    'code' => BaseController::CODE_FORBIDDEN,
+                    'http_code' => Response::HTTP_FORBIDDEN,
+                    'message' => 'Forbidden',
+                ],
+            ], Response::HTTP_FORBIDDEN);
+
+            $event->setResponse($response);
 
             return;
         }
 
         $token = new WsseUserToken();
-        $token->setUser($matches[1]);
-
-        $token->digest = $matches[2];
-        $token->nonce = $matches[3];
-        $token->created = $matches[4];
+        $token->setDigest($matches[2])
+            ->setNonce($matches[3])
+            ->setCreated($matches[4])
+            ->setUser($matches[1]);
 
         try {
             $authToken = $this->authenticationManager->authenticate($token);
             $this->tokenStorage->setToken($authToken);
         } catch (AuthenticationException $e) {
-            $this->createForbiddenResponse($event);
-        }
-    }
+            $response = new JsonResponse([
+                'error' => [
+                    'code' => BaseController::CODE_UNAUTHORIZED,
+                    'http_code' => Response::HTTP_UNAUTHORIZED,
+                    'message' => 'Unauthorized',
+                ],
+            ], Response::HTTP_UNAUTHORIZED);
 
-    /**
-     * @param GetResponseEvent $event
-     */
-    private function createForbiddenResponse(GetResponseEvent $event)
-    {
-        $response = new Response();
-        $response->setStatusCode(Response::HTTP_FORBIDDEN);
-        $event->setResponse($response);
+            $event->setResponse($response);
+        }
     }
 }

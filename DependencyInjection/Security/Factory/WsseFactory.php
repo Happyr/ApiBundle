@@ -9,11 +9,9 @@ use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\SecurityFactoryInterface;
 
 /**
- * Class WsseFactory.
+ * Goes through the configuration and configures the WsseListener
  *
  * @author Toby Ryuk
- *
- * Goes through the configuration and configures the WsseListener
  */
 class WsseFactory implements SecurityFactoryInterface
 {
@@ -30,12 +28,12 @@ class WsseFactory implements SecurityFactoryInterface
     {
         $providerId = 'security.authentication.provider.wsse.'.$id;
         $container
-            ->setDefinition($providerId, new DefinitionDecorator('wsse.security.authentication.provider'))
+            ->setDefinition($providerId, new DefinitionDecorator('happyr_api.wsse.security.authentication.provider'))
             ->replaceArgument(0, new Reference($userProvider))
         ;
 
         $listenerId = 'security.authentication.listener.wsse.'.$id;
-        $container->setDefinition($listenerId, new DefinitionDecorator('wsse.security.authentication.listener'));
+        $container->setDefinition($listenerId, new DefinitionDecorator('happyr_api.wsse.security.authentication.listener'));
 
         return array($providerId, $listenerId, $defaultEntryPoint);
     }

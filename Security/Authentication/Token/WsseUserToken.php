@@ -14,19 +14,19 @@ use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
 class WsseUserToken extends AbstractToken
 {
     /**
-     * @var
+     * @var string
      */
-    public $created;
+    private $created;
 
     /**
      * @var string
      */
-    public $digest;
+    private $digest;
 
     /**
      * @var string
      */
-    public $nonce;
+    private $nonce;
 
     /**
      * WsseUserToken constructor.
@@ -46,5 +46,65 @@ class WsseUserToken extends AbstractToken
     public function getCredentials()
     {
         return '';
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreated(): string
+    {
+        return $this->created;
+    }
+
+    /**
+     * @param string $created
+     *
+     * @return WsseUserToken
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDigest(): string
+    {
+        return $this->digest;
+    }
+
+    /**
+     * @param string $digest
+     *
+     * @return WsseUserToken
+     */
+    public function setDigest($digest)
+    {
+        $this->digest = $digest;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNonce(): string
+    {
+        return $this->nonce;
+    }
+
+    /**
+     * @param string $nonce
+     *
+     * @return WsseUserToken
+     */
+    public function setNonce($nonce)
+    {
+        $this->nonce = $nonce;
+
+        return $this;
     }
 }

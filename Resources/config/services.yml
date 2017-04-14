@@ -1,5 +1,5 @@
 services:
-  wsse.security.authentication.provider:
+  happyr_api.wsse.security.authentication.provider:
       class: Happyr\ApiBundle\Security\Authentication\Provider\WsseProvider
       arguments:
           - ~
@@ -9,7 +9,16 @@ services:
       calls:
           - ['setLogger', ['@?logger']]
 
-  wsse.security.authentication.listener:
+  happyr_api.wsse.security.authentication.listener:
       class: Happyr\ApiBundle\Security\Firewall\WsseListener
       arguments: ["@security.token_storage", "@security.authentication.manager"]
       public: false
+
+
+  happyr_api.fractal:
+    class: League\Fractal\Manager
+    calls:
+      - [setSerializer, ['@happyr_api.fractal.serializer']]
+
+  happyr_api.fractal.serializer:
+    class: League\Fractal\Serializer\DataArraySerializer

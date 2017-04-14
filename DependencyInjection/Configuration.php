@@ -24,6 +24,7 @@ class Configuration implements ConfigurationInterface
                     ->canBeEnabled()
                     ->children()
                         ->booleanNode('debug')->defaultFalse()->end()
+                        ->arrayNode('debug_roles')->prototype('scalar')->end()->end()
                         ->scalarNode('user_provider')->isRequired()->cannotBeEmpty()->end()
                         ->scalarNode('cache_service')->isRequired()->cannotBeEmpty()->end()
                         ->scalarNode('lifetime')->cannotBeEmpty()->defaultValue('300')->end()
