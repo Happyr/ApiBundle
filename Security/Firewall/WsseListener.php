@@ -2,9 +2,7 @@
 
 namespace Happyr\ApiBundle\Security\Firewall;
 
-use Happyr\ApiBundle\Controller\BaseApiController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
+use Happyr\ApiBundle\Service\ResponseFactory;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -32,6 +30,11 @@ class WsseListener implements ListenerInterface
     protected $authenticationManager;
 
     /**
+     * @var ResponseFactory
+     */
+    private $responseFactory;
+
+    /**
      * @param TokenStorageInterface          $tokenStorage
      * @param AuthenticationManagerInterface $authenticationManager
      */
@@ -39,6 +42,14 @@ class WsseListener implements ListenerInterface
     {
         $this->tokenStorage = $tokenStorage;
         $this->authenticationManager = $authenticationManager;
+    }
+
+    /**
+     * @param ResponseFactory $responseFactory
+     **/
+    public function setResponseFactory(ResponseFactory $responseFactory)
+    {
+        $this->responseFactory = $responseFactory;
     }
 
     /**
@@ -51,15 +62,7 @@ class WsseListener implements ListenerInterface
         $wsseRegex = '|UsernameToken Username="([^"]+)", PasswordDigest="([^"]+)", Nonce="([a-zA-Z0-9+/]+={0,2})", Created="([^"]+)"|';
         if (!$request->headers->has('x-wsse') || 1 !== preg_match($wsseRegex, $request->headers->get('x-wsse'), $matches)) {
             // If we do not have any WSSE headers...
-            $response = new JsonResponse([
-                'error' => [
-                    'code' => BaseApiController::CODE_FORBIDDEN,
-                    'http_code' => Response::HTTP_FORBIDDEN,
-                    'message' => 'Forbidden',
-                ],
-            ], Response::HTTP_FORBIDDEN);
-
-            $event->setResponse($response);
+            $event->setResponse($this->responseFactory->createForbidden());
 
             return;
         }
@@ -74,15 +77,7 @@ class WsseListener implements ListenerInterface
             $authToken = $this->authenticationManager->authenticate($token);
             $this->tokenStorage->setToken($authToken);
         } catch (AuthenticationException $e) {
-            $response = new JsonResponse([
-                'error' => [
-                    'code' => BaseApiController::CODE_UNAUTHORIZED,
-                    'http_code' => Response::HTTP_UNAUTHORIZED,
-                    'message' => 'Unauthorized',
-                ],
-            ], Response::HTTP_UNAUTHORIZED);
-
-            $event->setResponse($response);
+            $event->setResponse($this->responseFactory->createUnauthorized());
         }
     }
 }

@@ -13,7 +13,12 @@ services:
       class: Happyr\ApiBundle\Security\Firewall\WsseListener
       arguments: ["@security.token_storage", "@security.authentication.manager"]
       public: false
+      calls:
+          - ['setResponseFactory', ['@happyr_api.response_factory']]
 
+  happyr_api.response_factory:
+    class: Happyr\ApiBundle\Service\ResponseFactory
+    arguments: ['@happyr_api.fractal']
 
   happyr_api.fractal:
     class: League\Fractal\Manager

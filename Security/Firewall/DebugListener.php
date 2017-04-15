@@ -2,6 +2,7 @@
 
 namespace Happyr\ApiBundle\Security\Firewall;
 
+use Happyr\ApiBundle\Service\ResponseFactory;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -45,5 +46,12 @@ class DebugListener implements ListenerInterface
 
         $authToken = $this->authenticationManager->authenticate($token);
         $this->tokenStorage->setToken($authToken);
+    }
+
+    /**
+     * @param ResponseFactory $responseFactory
+     **/
+    public function setResponseFactory(ResponseFactory $responseFactory)
+    {
     }
 }
