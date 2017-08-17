@@ -32,6 +32,14 @@ final class ResponseFactory
     }
 
     /**
+     * @return Manager
+     */
+    public function getFractal()
+    {
+        return $this->fractal;
+    }
+
+    /**
      * @param mixed $item
      * @param $callback
      *
