@@ -82,7 +82,7 @@ final class ResponseFactory
     /**
      * @param string $message
      * @param int    $statusCode
-     * @param int    $errorCode
+     * @param string $errorCode
      *
      * @return JsonResponse
      */
@@ -151,6 +151,6 @@ final class ResponseFactory
      */
     public function createWrongArgs($message = 'Wrong Arguments')
     {
-        return $this->createWithError($message,  400, self::CODE_WRONG_ARGS);
+        return $this->createWithError($message, 400, self::CODE_WRONG_ARGS);
     }
 }

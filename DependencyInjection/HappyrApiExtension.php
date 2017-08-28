@@ -5,11 +5,11 @@ namespace Happyr\ApiBundle\DependencyInjection;
 use Happyr\ApiBundle\Security\Authentication\Provider\DebugProvider;
 use Happyr\ApiBundle\Security\Authentication\Provider\DummyProvider;
 use Happyr\ApiBundle\Security\Firewall\DebugListener;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use Symfony\Component\DependencyInjection\Loader;
 
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
@@ -33,7 +33,7 @@ class HappyrApiExtension extends Extension
             $container->removeDefinition($wsseProviderId);
             $container->register($wsseProviderId, DummyProvider::class)
                 ->addArgument(null);
-        } elseif ($config['wsse']['debug'] && $container->getParameter('kernel.debug')) {
+        } elseif ($config['wsse']['debug']) {
             $container->removeDefinition($wsseProviderId);
             $container->register($wsseProviderId, DebugProvider::class)
                 ->addArgument(null)
@@ -45,6 +45,30 @@ class HappyrApiExtension extends Extension
             $definition->replaceArgument(0, new Reference($config['wsse']['user_provider']));
             $definition->replaceArgument(1, new Reference($config['wsse']['cache_service']));
             $definition->replaceArgument(2, $config['wsse']['lifetime']);
+        }
+
+        if ($config['exception_listener']['enabled']) {
+            $this->enabledExceptionHandler($container, $config);
+        } else {
+            $container->removeDefinition('happyr_api.exception_listener');
+        }
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     * @param $config
+     *
+     * @return mixed
+     */
+    private function enabledExceptionHandler(ContainerBuilder $container, $config)
+    {
+        $def = $container->getDefinition('happyr_api.exception_listener');
+        $def->replaceArgument(1, $config['exception_listener']['path_prefix']);
+        if ('dev' !== $container->getParameter('kernel.environment')) {
+            $def->addTag(
+                'kernel.event_listener',
+                ['event' => 'kernel.exception', 'method' => 'onKernelException', 'priority' => -10]
+            );
         }
     }
 }

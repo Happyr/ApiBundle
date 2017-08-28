@@ -27,3 +27,7 @@ services:
 
   happyr_api.fractal.serializer:
     class: League\Fractal\Serializer\DataArraySerializer
+
+  happyr_api.exception_listener:
+    class: Happyr\ApiBundle\EventListener\ExceptionListener
+    arguments: ['@happyr_api.response_factory', ~]
