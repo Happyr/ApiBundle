@@ -27,7 +27,7 @@ matrix:
     - php: 7.1
       env: SYMFONY_VERSION=2.8.*
     - php: hhvm
-      env: SYMFONY_VERSION=2.2.*
+      env: SYMFONY_VERSION=3.2.*
       dist: trusty
     - php: 7.1
       env: SYMFONY_VERSION=3.3.*
