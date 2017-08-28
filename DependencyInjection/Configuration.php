@@ -30,6 +30,12 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('lifetime')->cannotBeEmpty()->defaultValue('300')->end()
                     ->end()
                 ->end()
+                ->arrayNode('exception_listener')
+                    ->canBeDisabled()
+                    ->children()
+                        ->scalarNode('path_prefix')->defaultValue('/')->end()
+                    ->end()
+                ->end()
             ->end();
 
         return $treeBuilder;

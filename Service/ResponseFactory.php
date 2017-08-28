@@ -82,7 +82,7 @@ final class ResponseFactory
     /**
      * @param string $message
      * @param int    $statusCode
-     * @param int    $errorCode
+     * @param string $errorCode
      *
      * @return JsonResponse
      */

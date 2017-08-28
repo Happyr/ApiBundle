@@ -46,5 +46,30 @@ class HappyrApiExtension extends Extension
             $definition->replaceArgument(1, new Reference($config['wsse']['cache_service']));
             $definition->replaceArgument(2, $config['wsse']['lifetime']);
         }
+
+        if ($config['exception_listener']['enabled']) {
+            $this->enabledExceptionHandler($container, $config);
+        } else {
+            $container->removeDefinition('happyr_api.exception_listener');
+        }
+
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     * @param $config
+     *
+     * @return mixed
+     */
+    private function enabledExceptionHandler(ContainerBuilder $container, $config)
+    {
+        $def = $container->getDefinition('happyr_api.exception_listener');
+        $def->replaceArgument(1, $config['exception_listener']['path_prefix']);
+        if ('dev' !== $container->getParameter('kernel.environment')) {
+            $def->addTag(
+                'kernel.event_listener',
+                ['event' => 'kernel.exception', 'method' => 'onKernelException', 'priority' => -10]
+            );
+        }
     }
 }
