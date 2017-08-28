@@ -108,6 +108,7 @@ class WsseProvider implements AuthenticationProviderInterface
         // if it has, this could be a replay attack
         if ($cacheItem->isHit()) {
             $this->log('error', 'Digest not valid. Nonce already used');
+
             throw new NonceExpiredException('Previously used nonce detected');
         }
 

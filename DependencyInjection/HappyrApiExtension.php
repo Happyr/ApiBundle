@@ -52,7 +52,6 @@ class HappyrApiExtension extends Extension
         } else {
             $container->removeDefinition('happyr_api.exception_listener');
         }
-
     }
 
     /**
