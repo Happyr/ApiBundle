@@ -5,11 +5,11 @@ namespace Happyr\ApiBundle\DependencyInjection;
 use Happyr\ApiBundle\Security\Authentication\Provider\DebugProvider;
 use Happyr\ApiBundle\Security\Authentication\Provider\DummyProvider;
 use Happyr\ApiBundle\Security\Firewall\DebugListener;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use Symfony\Component\DependencyInjection\Loader;
 
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
@@ -33,7 +33,7 @@ class HappyrApiExtension extends Extension
             $container->removeDefinition($wsseProviderId);
             $container->register($wsseProviderId, DummyProvider::class)
                 ->addArgument(null);
-        } elseif ($config['wsse']['debug'] && $container->getParameter('kernel.debug')) {
+        } elseif ($config['wsse']['debug']) {
             $container->removeDefinition($wsseProviderId);
             $container->register($wsseProviderId, DebugProvider::class)
                 ->addArgument(null)
