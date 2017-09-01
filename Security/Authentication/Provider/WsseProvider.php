@@ -61,13 +61,9 @@ class WsseProvider implements AuthenticationProviderInterface
      */
     public function authenticate(TokenInterface $token)
     {
-        $user = $this->userProvider->loadUserByUsername($token->getUsername());
+        $user = $this->getUser($token);
 
-        if (!$user) {
-            throw new AuthenticationException('User not found.');
-        }
-
-        if ($user && $this->validateDigest($token->getDigest(), $token->getNonce(), $token->getCreated(), $user->getPassword())) {
+        if ($this->validateDigest($token->getDigest(), $token->getNonce(), $token->getCreated(), $user->getPassword())) {
             $authenticatedToken = new WsseUserToken($user->getRoles());
             $authenticatedToken->setUser($user);
 
@@ -161,5 +157,22 @@ class WsseProvider implements AuthenticationProviderInterface
             return;
         }
         $this->logger->log($level, $message, $context);
+    }
+
+    /**
+     * @param TokenInterface $token
+     * @return \Symfony\Component\Security\Core\User\UserInterface
+     *
+     * @throws AuthenticationException
+     */
+    protected function getUser(TokenInterface $token)
+    {
+        $user = $this->userProvider->loadUserByUsername($token->getUsername());
+
+        if (null === $user) {
+            throw new AuthenticationException('User not found.');
+        }
+
+        return $user;
     }
 }
