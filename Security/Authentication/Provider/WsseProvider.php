@@ -113,7 +113,7 @@ class WsseProvider implements AuthenticationProviderInterface
         }
 
         // If cache item does not exist, create it
-        $cacheItem->set(null)->expiresAfter($this->lifetime - (time() - $created));
+        $cacheItem->set(null)->expiresAfter($this->lifetime - (time() - strtotime($created)));
         $this->cacheService->save($cacheItem);
 
         // Validate Secret
