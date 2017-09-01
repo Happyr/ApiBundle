@@ -161,6 +161,7 @@ class WsseProvider implements AuthenticationProviderInterface
 
     /**
      * @param TokenInterface $token
+     *
      * @return \Symfony\Component\Security\Core\User\UserInterface
      *
      * @throws AuthenticationException
