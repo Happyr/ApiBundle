@@ -153,7 +153,7 @@ class WsseProvider implements AuthenticationProviderInterface
      */
     private function log($level, $message, array $context = [])
     {
-        if ($this->logger === null) {
+        if (null === $this->logger) {
             return;
         }
         $this->logger->log($level, $message, $context);

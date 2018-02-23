@@ -13,9 +13,13 @@ use League\Fractal\Manager;
 final class ResponseFactory
 {
     const CODE_WRONG_ARGS = 'GEN-ARGUMENTS';
+
     const CODE_NOT_FOUND = 'GEN-NOTFOUND';
+
     const CODE_INTERNAL_ERROR = 'GEN-SERVERERROR';
+
     const CODE_UNAUTHORIZED = 'GEN-UNAUTHORIZED';
+
     const CODE_FORBIDDEN = 'GEN-FORBIDDEN';
 
     /**
@@ -88,7 +92,7 @@ final class ResponseFactory
      */
     public function createWithError($message, $statusCode, $errorCode)
     {
-        if ($statusCode === 200) {
+        if (200 === $statusCode) {
             trigger_error(
                 'You better have a really good reason for erroring on a 200...',
                 E_USER_WARNING
