@@ -32,7 +32,7 @@ To enable and configure it, in config.yml add
 ```yaml
 happyr_api:
     wsse:
-        user_provider: "@security.user.provider.in_memory.user" # The @-sign is needed
+        user_provider: "security.user.provider.concrete.in_memory"
         cache_service: "cache.provider.redis"
         lifetime: 300
         debug: false # Set to true to disable WSSE completely. You will always be authenticated. 

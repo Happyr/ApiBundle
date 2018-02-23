@@ -1,7 +1,26 @@
 
+security:
+    providers:
+        in_memory:
+            memory:
+                users:
+                    username:
+                        password: password
+                        roles: ['ROLE_API_USER']
+    firewalls:
+        main:
+            pattern:   ^/api/
+            stateless: true
+            wsse:      true
+
+services:
+    cache:
+        class: Cache\Adapter\Void\VoidCachePool
+
 happyr_api:
     wsse:
-        user_provider: "@security.user.provider.in_memory.user"
+        user_provider: "security.user.provider.concrete.in_memory"
         cache_service: "cache"
         lifetime: 300
         debug: false
+
