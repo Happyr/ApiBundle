@@ -2,9 +2,9 @@
 
 namespace Happyr\ApiBundle\DependencyInjection\Security\Factory;
 
+use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\SecurityFactoryInterface;
 
@@ -28,12 +28,12 @@ class WsseFactory implements SecurityFactoryInterface
     {
         $providerId = 'security.authentication.provider.wsse.'.$id;
         $container
-            ->setDefinition($providerId, new DefinitionDecorator('happyr_api.wsse.security.authentication.provider'))
+            ->setDefinition($providerId, new ChildDefinition('happyr_api.wsse.security.authentication.provider'))
             ->replaceArgument(0, new Reference($userProvider))
         ;
 
         $listenerId = 'security.authentication.listener.wsse.'.$id;
-        $container->setDefinition($listenerId, new DefinitionDecorator('happyr_api.wsse.security.authentication.listener'));
+        $container->setDefinition($listenerId, new ChildDefinition('happyr_api.wsse.security.authentication.listener'));
 
         return [$providerId, $listenerId, $defaultEntryPoint];
     }
