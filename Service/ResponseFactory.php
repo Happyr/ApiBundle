@@ -2,13 +2,13 @@
 
 namespace Happyr\ApiBundle\Service;
 
+use League\Fractal\Manager;
 use League\Fractal\Pagination\Cursor;
 use League\Fractal\Pagination\CursorInterface;
 use League\Fractal\Pagination\PaginatorInterface;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use League\Fractal\Manager;
 
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
@@ -30,10 +30,10 @@ final class ResponseFactory
      */
     private $fractal;
 
-    /** @var  PaginatorInterface */
+    /** @var PaginatorInterface */
     private $paginator;
 
-    /** @var  Cursor */
+    /** @var Cursor */
     private $cursor;
 
     /**
@@ -75,7 +75,7 @@ final class ResponseFactory
     public function createWithCollection($collection, $callback)
     {
         $resource = new Collection($collection, $callback);
-        if($this->paginator !== null) {
+        if (null !== $this->paginator) {
             $resource->setPaginator($this->paginator);
         }
         $rootScope = $this->fractal->createData($resource);
@@ -139,6 +139,8 @@ final class ResponseFactory
     /**
      * Generates a Response with a 403 HTTP header and a given message.
      *
+     * @param mixed $message
+     *
      * @return JsonResponse
      */
     public function createForbidden($message = 'Forbidden')
@@ -148,6 +150,8 @@ final class ResponseFactory
 
     /**
      * Generates a Response with a 500 HTTP header and a given message.
+     *
+     * @param mixed $message
      *
      * @return JsonResponse
      */
@@ -159,6 +163,8 @@ final class ResponseFactory
     /**
      * Generates a Response with a 404 HTTP header and a given message.
      *
+     * @param mixed $message
+     *
      * @return JsonResponse
      */
     public function createNotFound($message = 'Resource Not Found')
@@ -169,6 +175,8 @@ final class ResponseFactory
     /**
      * Generates a Response with a 401 HTTP header and a given message.
      *
+     * @param mixed $message
+     *
      * @return JsonResponse
      */
     public function createUnauthorized($message = 'Unauthorized')
@@ -178,6 +186,8 @@ final class ResponseFactory
 
     /**
      * Generates a Response with a 400 HTTP header and a given message.
+     *
+     * @param mixed $message
      *
      * @return JsonResponse
      */
