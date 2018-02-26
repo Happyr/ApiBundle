@@ -2,6 +2,9 @@
 
 namespace Happyr\ApiBundle\Service;
 
+use League\Fractal\Pagination\Cursor;
+use League\Fractal\Pagination\CursorInterface;
+use League\Fractal\Pagination\PaginatorInterface;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -26,6 +29,12 @@ final class ResponseFactory
      * @var Manager
      */
     private $fractal;
+
+    /** @var  PaginatorInterface */
+    private $paginator;
+
+    /** @var  Cursor */
+    private $cursor;
 
     /**
      * @param Manager $fractal
@@ -66,9 +75,28 @@ final class ResponseFactory
     public function createWithCollection($collection, $callback)
     {
         $resource = new Collection($collection, $callback);
+        if($this->paginator !== null) {
+            $resource->setPaginator($this->paginator);
+        }
         $rootScope = $this->fractal->createData($resource);
 
         return $this->createWithArray($rootScope->toArray());
+    }
+
+    public function withPaginator(PaginatorInterface $paginator)
+    {
+        $new = clone $this;
+        $new->paginator = $paginator;
+
+        return $new;
+    }
+
+    public function withCursor(CursorInterface $cursor)
+    {
+        $new = clone $this;
+        $new->cursor = $cursor;
+
+        return $new;
     }
 
     /**
