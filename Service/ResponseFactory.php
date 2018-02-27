@@ -35,7 +35,9 @@ final class ResponseFactory
      */
     private $paginator;
 
-    /** @var Cursor */
+    /**
+     * @var CursorInterface
+     */
     private $cursor;
 
     /**
@@ -153,7 +155,7 @@ final class ResponseFactory
     /**
      * Generates a Response with a 403 HTTP header and a given message.
      *
-     * @param mixed $message
+     * @param string $message
      *
      * @return JsonResponse
      */
@@ -165,7 +167,7 @@ final class ResponseFactory
     /**
      * Generates a Response with a 500 HTTP header and a given message.
      *
-     * @param mixed $message
+     * @param string $message
      *
      * @return JsonResponse
      */
@@ -177,7 +179,7 @@ final class ResponseFactory
     /**
      * Generates a Response with a 404 HTTP header and a given message.
      *
-     * @param mixed $message
+     * @param string $message
      *
      * @return JsonResponse
      */
@@ -189,7 +191,7 @@ final class ResponseFactory
     /**
      * Generates a Response with a 401 HTTP header and a given message.
      *
-     * @param mixed $message
+     * @param string $message
      *
      * @return JsonResponse
      */
@@ -201,7 +203,7 @@ final class ResponseFactory
     /**
      * Generates a Response with a 400 HTTP header and a given message.
      *
-     * @param mixed $message
+     * @param string $message
      *
      * @return JsonResponse
      */
