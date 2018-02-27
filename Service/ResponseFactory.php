@@ -30,7 +30,9 @@ final class ResponseFactory
      */
     private $fractal;
 
-    /** @var PaginatorInterface */
+    /**
+     * @var PaginatorInterface
+     */
     private $paginator;
 
     /** @var Cursor */
@@ -77,12 +79,19 @@ final class ResponseFactory
         $resource = new Collection($collection, $callback);
         if (null !== $this->paginator) {
             $resource->setPaginator($this->paginator);
+        } elseif (null !== $this->cursor) {
+            $resource->setCursor($this->cursor);
         }
         $rootScope = $this->fractal->createData($resource);
 
         return $this->createWithArray($rootScope->toArray());
     }
 
+    /**
+     * @param PaginatorInterface $paginator
+     *
+     * @return ResponseFactory
+     */
     public function withPaginator(PaginatorInterface $paginator)
     {
         $new = clone $this;
@@ -91,6 +100,11 @@ final class ResponseFactory
         return $new;
     }
 
+    /**
+     * @param CursorInterface $cursor
+     *
+     * @return ResponseFactory
+     */
     public function withCursor(CursorInterface $cursor)
     {
         $new = clone $this;
