@@ -3,7 +3,6 @@
 namespace Happyr\ApiBundle\Service;
 
 use League\Fractal\Manager;
-use League\Fractal\Pagination\Cursor;
 use League\Fractal\Pagination\CursorInterface;
 use League\Fractal\Pagination\PaginatorInterface;
 use League\Fractal\Resource\Collection;
