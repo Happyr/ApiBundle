@@ -2,6 +2,18 @@
 
 The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release. 
 
+## 0.4.1
+
+### Added
+
+- Support for Paginator and Cursor
+
+## 0.4.0
+
+### Added 
+
+- Support for Symfony 4
+
 ## 0.3.0
 
 ### Added
