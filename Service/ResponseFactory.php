@@ -223,10 +223,9 @@ final class ResponseFactory
      */
     public function createValidationFailed(
         ConstraintViolationListInterface $constraintViolationList,
-        $message = "Validation Failed",
+        $message = 'Validation Failed',
         $statusCode = 400
-    )
-    {
+    ) {
         $errors = [];
         /** @var ConstraintViolationInterface $constraintViolation */
         foreach ($constraintViolationList as $constraintViolation) {
