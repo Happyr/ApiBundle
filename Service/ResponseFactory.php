@@ -18,6 +18,8 @@ final class ResponseFactory
 {
     const CODE_WRONG_ARGS = 'GEN-ARGUMENTS';
 
+    const CODE_VALIDATION_FAILED = 'GEN-VALIDATION';
+
     const CODE_NOT_FOUND = 'GEN-NOTFOUND';
 
     const CODE_INTERNAL_ERROR = 'GEN-SERVERERROR';
@@ -224,7 +226,8 @@ final class ResponseFactory
         ConstraintViolationListInterface $constraintViolationList,
         $message = 'Validation Failed',
         $statusCode = 400
-    ) {
+    )
+    {
         $errors = [];
         /** @var ConstraintViolationInterface $constraintViolation */
         foreach ($constraintViolationList as $constraintViolation) {
