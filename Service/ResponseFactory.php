@@ -219,6 +219,7 @@ final class ResponseFactory
      * @param ConstraintViolationListInterface $constraintViolationList
      * @param string                           $message
      * @param int                              $statusCode
+     *
      * @return JsonResponse
      */
     public function createValidationFailed(
