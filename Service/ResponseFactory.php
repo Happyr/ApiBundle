@@ -226,8 +226,7 @@ final class ResponseFactory
         ConstraintViolationListInterface $constraintViolationList,
         $message = 'Validation Failed',
         $statusCode = 400
-    )
-    {
+    ) {
         $errors = [];
         /** @var ConstraintViolationInterface $constraintViolation */
         foreach ($constraintViolationList as $constraintViolation) {
