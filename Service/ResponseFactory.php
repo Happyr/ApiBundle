@@ -18,8 +18,6 @@ final class ResponseFactory
 {
     const CODE_WRONG_ARGS = 'GEN-ARGUMENTS';
 
-    const CODE_VALIDATION_FAILED = 'GEN-VALIDATION';
-
     const CODE_NOT_FOUND = 'GEN-NOTFOUND';
 
     const CODE_INTERNAL_ERROR = 'GEN-SERVERERROR';
