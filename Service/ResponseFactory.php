@@ -8,6 +8,8 @@ use League\Fractal\Pagination\PaginatorInterface;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Validator\ConstraintViolationInterface;
+use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
@@ -57,7 +59,7 @@ final class ResponseFactory
 
     /**
      * @param mixed $item
-     * @param $callback
+     * @param       $callback
      *
      * @return JsonResponse
      */
@@ -71,7 +73,7 @@ final class ResponseFactory
 
     /**
      * @param mixed $collection
-     * @param $callback
+     * @param       $callback
      *
      * @return JsonResponse
      */
@@ -209,5 +211,38 @@ final class ResponseFactory
     public function createWrongArgs($message = 'Wrong Arguments')
     {
         return $this->createWithError($message, 400, self::CODE_WRONG_ARGS);
+    }
+
+    /**
+     * @param ConstraintViolationListInterface $constraintViolationList
+     * @param string                           $message
+     * @param int                              $statusCode
+     *
+     * @return JsonResponse
+     */
+    public function createValidationFailed(
+        ConstraintViolationListInterface $constraintViolationList,
+        $message = 'Validation Failed',
+        $statusCode = 400
+    ) {
+        $errors = [];
+        /** @var ConstraintViolationInterface $constraintViolation */
+        foreach ($constraintViolationList as $constraintViolation) {
+            $errors[] = [
+                'property' => $constraintViolation->getPropertyPath(),
+                'message' => $constraintViolation->getMessage(),
+            ];
+        }
+
+        return $this->createWithArray([
+            'error' => [
+                'code' => self::CODE_WRONG_ARGS,
+                'http_code' => $statusCode,
+                'message' => $message,
+            ],
+            'data' => [
+                'errors' => $errors,
+            ],
+        ], $statusCode);
     }
 }

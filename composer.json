@@ -15,7 +15,8 @@
         "symfony/security-bundle": "^3.3 || ^4.0",
         "symfony/http-foundation": "^3.3 || ^4.0",
         "symfony/framework-bundle": "^3.3 || ^4.0",
-        "league/fractal": "^0.16.0"
+        "league/fractal": "^0.16.0",
+        "symfony/validator": "^3.3 || ^4.0"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^4.0.4",
