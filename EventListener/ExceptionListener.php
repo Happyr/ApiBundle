@@ -62,13 +62,7 @@ class ExceptionListener
         } elseif ($exception instanceof NotFoundHttpException) {
             $response = $this->responseFactory->createNotFound();
         } elseif ($exception instanceof ValidationFailedException) {
-            $message = '';
-            /** @var ConstraintViolationInterface $violation */
-            foreach ($exception->getViolations() as $violation) {
-                $message .= sprintf('%s: %s ', $violation->getPropertyPath(), $violation->getMessage());
-            }
-
-            $response = $this->responseFactory->createWrongArgs($message);
+            $response = $this->responseFactory->createValidationFailed($exception->getViolations());
         } else {
             $response = $this->responseFactory->createInternalError();
         }
