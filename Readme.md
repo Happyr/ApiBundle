@@ -65,7 +65,7 @@ security:
 
 Exception listener is enabled by default. It will catch uncaught exceptions and return formatted json response.
 
-To disable/configure it, in config.yml add
+Here is an example configuration:
 ```yaml
 happyr_api:
   exception_listener:
