@@ -11,7 +11,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Validator\ConstraintViolationInterface;
 
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
@@ -62,13 +61,7 @@ class ExceptionListener
         } elseif ($exception instanceof NotFoundHttpException) {
             $response = $this->responseFactory->createNotFound();
         } elseif ($exception instanceof ValidationFailedException) {
-            $message = '';
-            /** @var ConstraintViolationInterface $violation */
-            foreach ($exception->getViolations() as $violation) {
-                $message .= sprintf('%s: %s ', $violation->getPropertyPath(), $violation->getMessage());
-            }
-
-            $response = $this->responseFactory->createWrongArgs($message);
+            $response = $this->responseFactory->createValidationFailed($exception->getViolations());
         } else {
             $response = $this->responseFactory->createInternalError();
         }

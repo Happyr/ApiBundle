@@ -60,3 +60,15 @@ security:
             wsse:      true
 
 ```
+
+## Exception listener
+
+Exception listener is enabled by default. It will catch uncaught exceptions and return formatted json response.
+
+Here is an example configuration:
+```yaml
+happyr_api:
+  exception_listener:
+    enabled: false # disables response listener 
+    path_prefix: '/path-prefix' # path prefix to enable listener on. By default its enabled for any path
+```
