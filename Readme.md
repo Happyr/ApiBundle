@@ -70,5 +70,5 @@ Here is an example configuration:
 happyr_api:
   exception_listener:
     enabled: false # disables response listener 
-    path_prefix: '/path-prefix' # path prefix to enable listener on. By default its enabled for any path
+    path_prefix: '/api/' # path prefix to enable listener on. By default its enabled for any path
 ```
