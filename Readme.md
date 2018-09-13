@@ -65,10 +65,10 @@ security:
 
 Exception listener is enabled by default. It will catch uncaught exceptions and return formatted json response.
 
-To disable/configure it, in config.yml add
+Here is an example configuration:
 ```yaml
 happyr_api:
   exception_listener:
     enabled: false # disables response listener 
-    path_prefix: '/path-prefix' # path prefix to enable listener on. By default its enabled for any path
+    path_prefix: '/api/' # path prefix to enable listener on. By default its enabled for any path
 ```
