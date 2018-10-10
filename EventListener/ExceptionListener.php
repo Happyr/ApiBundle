@@ -5,6 +5,7 @@ namespace Happyr\ApiBundle\EventListener;
 use Fervo\ValidatedMessage\ValidationFailedException as FervoValaidationFailed;
 use Happyr\ApiBundle\Service\ResponseFactory;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -51,7 +52,7 @@ class ExceptionListener
         }
 
         $exception = $event->getException();
-        if ($exception instanceof AccessDeniedException) {
+        if ($exception instanceof AccessDeniedException || $exception instanceof AccessDeniedHttpException) {
             $response = $this->responseFactory->createForbidden();
         } elseif ($exception instanceof AuthenticationException) {
             $response = $this->responseFactory->createUnauthorized();
