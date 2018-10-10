@@ -47,7 +47,7 @@ class ExceptionListener
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
         // Make sure to match uri before we start to catch exceptions
-        if (!preg_match('|^' . $this->pathPrefix . '.*|sim', $event->getRequest()->getPathInfo())) {
+        if (!preg_match('|^'.$this->pathPrefix.'.*|sim', $event->getRequest()->getPathInfo())) {
             return;
         }
 
