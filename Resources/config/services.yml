@@ -1,4 +1,5 @@
 services:
+  Happyr\ApiBundle\Security\Authentication\Provider\WsseProvider: '@happyr_api.wsse.security.authentication.provider'
   happyr_api.wsse.security.authentication.provider:
       class: Happyr\ApiBundle\Security\Authentication\Provider\WsseProvider
       arguments:
@@ -9,6 +10,7 @@ services:
       calls:
           - ['setLogger', ['@?logger']]
 
+  Happyr\ApiBundle\Security\Firewall\WsseListener: '@happyr_api.wsse.security.authentication.listener'
   happyr_api.wsse.security.authentication.listener:
       class: Happyr\ApiBundle\Security\Firewall\WsseListener
       arguments: ["@security.token_storage", "@security.authentication.manager"]
@@ -16,6 +18,7 @@ services:
       calls:
           - ['setResponseFactory', ['@happyr_api.response_factory']]
 
+  Happyr\ApiBundle\Service\ResponseFactory: '@happyr_api.response_factory'
   happyr_api.response_factory:
     class: Happyr\ApiBundle\Service\ResponseFactory
     arguments: ['@happyr_api.fractal']
@@ -31,3 +34,4 @@ services:
   happyr_api.exception_listener:
     class: Happyr\ApiBundle\EventListener\ExceptionListener
     arguments: ['@happyr_api.response_factory', ~]
+
