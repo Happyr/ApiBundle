@@ -2,9 +2,12 @@
 
 namespace Happyr\ApiBundle\DependencyInjection;
 
+use Happyr\ApiBundle\EventListener\ExceptionListener;
 use Happyr\ApiBundle\Security\Authentication\Provider\DebugProvider;
 use Happyr\ApiBundle\Security\Authentication\Provider\DummyProvider;
+use Happyr\ApiBundle\Security\Authentication\Provider\WsseProvider;
 use Happyr\ApiBundle\Security\Firewall\DebugListener;
+use Happyr\ApiBundle\Security\Firewall\WsseListener;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
@@ -28,7 +31,7 @@ class HappyrApiExtension extends Extension
         $loader->load('services.yml');
 
         // add the error map to the error handler
-        $wsseProviderId = 'happyr_api.wsse.security.authentication.provider';
+        $wsseProviderId = WsseProvider::class;
         if (!$config['wsse']['enabled']) {
             $container->removeDefinition($wsseProviderId);
             $container->register($wsseProviderId, DummyProvider::class)
@@ -38,7 +41,7 @@ class HappyrApiExtension extends Extension
             $container->register($wsseProviderId, DebugProvider::class)
                 ->addArgument(null)
                 ->addMethodCall('setDebugRoles', [empty($config['wsse']['debug_roles']) ? ['ROLE_USER', 'ROLE_API_USER'] : $config['wsse']['debug_roles']]);
-            $container->getDefinition('happyr_api.wsse.security.authentication.listener')
+            $container->getDefinition(WsseListener::class)
                 ->setClass(DebugListener::class);
         } else {
             $definition = $container->getDefinition($wsseProviderId);
@@ -50,7 +53,7 @@ class HappyrApiExtension extends Extension
         if ($config['exception_listener']['enabled']) {
             $this->enabledExceptionHandler($container, $config);
         } else {
-            $container->removeDefinition('happyr_api.exception_listener');
+            $container->removeDefinition(ExceptionListener::class);
         }
     }
 
@@ -62,7 +65,7 @@ class HappyrApiExtension extends Extension
      */
     private function enabledExceptionHandler(ContainerBuilder $container, $config)
     {
-        $def = $container->getDefinition('happyr_api.exception_listener');
+        $def = $container->getDefinition(ExceptionListener::class);
         $def->replaceArgument(1, $config['exception_listener']['path_prefix']);
         if ('dev' !== $container->getParameter('kernel.environment')) {
             $def->addTag(

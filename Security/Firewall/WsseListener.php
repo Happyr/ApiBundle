@@ -33,21 +33,10 @@ class WsseListener
      */
     private $responseFactory;
 
-    /**
-     * @param TokenStorageInterface          $tokenStorage
-     * @param AuthenticationManagerInterface $authenticationManager
-     */
-    public function __construct(TokenStorageInterface $tokenStorage, AuthenticationManagerInterface $authenticationManager)
+    public function __construct(TokenStorageInterface $tokenStorage, AuthenticationManagerInterface $authenticationManager, ResponseFactory $responseFactory)
     {
         $this->tokenStorage = $tokenStorage;
         $this->authenticationManager = $authenticationManager;
-    }
-
-    /**
-     * @param ResponseFactory $responseFactory
-     **/
-    public function setResponseFactory(ResponseFactory $responseFactory)
-    {
         $this->responseFactory = $responseFactory;
     }
 
