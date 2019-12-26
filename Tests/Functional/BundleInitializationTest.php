@@ -24,7 +24,7 @@ class BundleInitializationTest extends BaseBundleTestCase
         return HappyrApiBundle::class;
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->addCompilerPass(new PublicServicePass('|happyr_api.*|'));

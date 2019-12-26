@@ -3,11 +3,10 @@
 namespace Happyr\ApiBundle\Security\Firewall;
 
 use Happyr\ApiBundle\Service\ResponseFactory;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 use Happyr\ApiBundle\Security\Authentication\Token\WsseUserToken;
 
 /**
@@ -17,7 +16,7 @@ use Happyr\ApiBundle\Security\Authentication\Token\WsseUserToken;
  *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
-class WsseListener implements ListenerInterface
+class WsseListener
 {
     /**
      * @var TokenStorageInterface
@@ -34,28 +33,14 @@ class WsseListener implements ListenerInterface
      */
     private $responseFactory;
 
-    /**
-     * @param TokenStorageInterface          $tokenStorage
-     * @param AuthenticationManagerInterface $authenticationManager
-     */
-    public function __construct(TokenStorageInterface $tokenStorage, AuthenticationManagerInterface $authenticationManager)
+    public function __construct(TokenStorageInterface $tokenStorage, AuthenticationManagerInterface $authenticationManager, ResponseFactory $responseFactory)
     {
         $this->tokenStorage = $tokenStorage;
         $this->authenticationManager = $authenticationManager;
-    }
-
-    /**
-     * @param ResponseFactory $responseFactory
-     **/
-    public function setResponseFactory(ResponseFactory $responseFactory)
-    {
         $this->responseFactory = $responseFactory;
     }
 
-    /**
-     * @param GetResponseEvent $event
-     */
-    public function handle(GetResponseEvent $event)
+    public function __invoke(RequestEvent $event)
     {
         $request = $event->getRequest();
 

@@ -1,6 +1,17 @@
 # Change Log
 
-The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release. 
+The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release.
+
+## 0.6.0
+
+### Added
+
+- Support for Symfony 5
+
+### Removed
+
+- Support for Symfony < 4.4
+- Support for PHP < 7.2
 
 ## 0.5.0
 
@@ -13,7 +24,7 @@ The change log describes what is "Added", "Removed", "Changed" or "Fixed" betwee
 
 ### Added
 
-- Support for PHP 7.0 
+- Support for PHP 7.0
 
 ## 0.4.1
 
@@ -23,7 +34,7 @@ The change log describes what is "Added", "Removed", "Changed" or "Fixed" betwee
 
 ## 0.4.0
 
-### Added 
+### Added
 
 - Support for Symfony 4
 

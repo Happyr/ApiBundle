@@ -2,9 +2,8 @@
 
 namespace Happyr\ApiBundle\EventListener;
 
-use Fervo\ValidatedMessage\ValidationFailedException as FervoValaidationFailed;
 use Happyr\ApiBundle\Service\ResponseFactory;
-use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
@@ -41,17 +40,15 @@ class ExceptionListener
 
     /**
      * Make sure we print a nice error message to the user when we encounter an exception.
-     *
-     * @param GetResponseForExceptionEvent $event
      */
-    public function onKernelException(GetResponseForExceptionEvent $event)
+    public function onKernelException(ExceptionEvent $event)
     {
         // Make sure to match uri before we start to catch exceptions
         if (!preg_match('|^'.$this->pathPrefix.'.*|sim', $event->getRequest()->getPathInfo())) {
             return;
         }
 
-        $exception = $event->getException();
+        $exception = $event->getThrowable();
         if ($exception instanceof AccessDeniedException || $exception instanceof AccessDeniedHttpException) {
             $response = $this->responseFactory->createForbidden();
         } elseif ($exception instanceof AuthenticationException) {
@@ -62,7 +59,7 @@ class ExceptionListener
             $response = $this->responseFactory->createWithError('Method not allowed', 405, 'GEN-METHOD');
         } elseif ($exception instanceof NotFoundHttpException) {
             $response = $this->responseFactory->createNotFound();
-        } elseif ($exception instanceof FervoValaidationFailed || $exception instanceof ValidationFailedException) {
+        } elseif ($exception instanceof ValidationFailedException) {
             $response = $this->responseFactory->createValidationFailed($exception->getViolations());
         } else {
             $response = $this->responseFactory->createInternalError();
