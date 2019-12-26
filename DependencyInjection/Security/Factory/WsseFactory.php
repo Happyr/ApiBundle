@@ -15,16 +15,7 @@ use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\SecurityF
  */
 class WsseFactory implements SecurityFactoryInterface
 {
-    /**
-     * @param ContainerBuilder $container
-     * @param int              $id
-     * @param array            $config
-     * @param string           $userProvider
-     * @param string           $defaultEntryPoint
-     *
-     * @return array
-     */
-    public function create(ContainerBuilder $container, $id, $config, $userProvider, $defaultEntryPoint)
+    public function create(ContainerBuilder $container, string $id, array $config, string $userProvider, ?string $defaultEntryPoint)
     {
         $providerId = 'security.authentication.provider.wsse.'.$id;
         $container

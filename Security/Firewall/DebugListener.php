@@ -3,16 +3,15 @@
 namespace Happyr\ApiBundle\Security\Firewall;
 
 use Happyr\ApiBundle\Service\ResponseFactory;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 use Happyr\ApiBundle\Security\Authentication\Token\WsseUserToken;
 
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
-class DebugListener implements ListenerInterface
+class DebugListener
 {
     /**
      * @var TokenStorageInterface
@@ -36,10 +35,7 @@ class DebugListener implements ListenerInterface
         $this->authenticationManager = $authenticationManager;
     }
 
-    /**
-     * @param GetResponseEvent $event
-     */
-    public function handle(GetResponseEvent $event)
+    public function __invoke(RequestEvent $event)
     {
         $token = new WsseUserToken();
         $token->setUser('api_user');
